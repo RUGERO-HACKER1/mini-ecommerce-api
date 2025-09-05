@@ -45,7 +45,7 @@ export const getCart = asyncHandler(async (_req, res) => {
   res.json(ok(detailed));
 });
 
-export const updateCartItem = asyncHandler(async (req: Request<{ productId: string }, {}, CartBody>, res) => {
+export const updateCartItem = (async (req :Request, res:Response) => {
   const { productId } = req.params;
   const { quantity } = req.body;
 
@@ -58,7 +58,7 @@ export const updateCartItem = asyncHandler(async (req: Request<{ productId: stri
   res.json(ok(item, "Cart item updated"));
 });
 
-export const removeCartItem = asyncHandler(async (req: Request<{ productId: string }>, res) => {
+export const removeCartItem = (async (req :Request, res:Response) => {
   const { productId } = req.params;
   if (!Types.ObjectId.isValid(productId)) return res.status(400).json(fail("Invalid productId"));
 

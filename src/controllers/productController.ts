@@ -33,11 +33,11 @@ export const getProductById = asyncHandler(async (req, res) => {
   res.json(ok(product));
 });
 
-export const updateProduct = asyncHandler(async (req: Request<{ id: string }, {}, ProductBody>, res) => {
+export const updateProduct = (async (req :Request, res:Response) => {
   const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
   if (!product) return res.status(404).json(fail("Product not found"));
   res.json(ok(product, "Product updated"));
-});
+})
 
 export const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findByIdAndDelete(req.params.id);

@@ -26,7 +26,14 @@ const OrderItemSchema = new Schema<IOrderItem>(
 
 const OrderSchema = new Schema<IOrder>(
   {
-    items: { type: [OrderItemSchema], required: true, validate: v => v.length > 0 },
+    items: {
+      type: [OrderItemSchema],
+      required: true,
+      validate: {
+        validator: (v: IOrderItem[]) => v.length > 0,
+        message: "Order must have at least one item",
+      },
+    },
     totalPrice: { type: Number, required: true, min: 0 },
   },
   { timestamps: true }
