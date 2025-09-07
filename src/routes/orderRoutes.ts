@@ -5,12 +5,14 @@ import {
   getOrderById,
   deleteOrder,
 } from "../controllers/orderController";
+import { protect } from "../middleware/protect";
 
 const router = Router();
 
-router.post("/", placeOrder);        // POST /orders
-router.get("/", getOrders);          // GET /orders
-router.get("/:id", getOrderById);    // GET /orders/:id
-router.delete("/:id", deleteOrder);  // DELETE /orders/:id
+// Protected routes — only logged-in users can access
+router.post("/", protect, placeOrder);        // Create an order
+router.get("/", protect, getOrders);          // Get all orders
+router.get("/:id", protect, getOrderById);    // Get order by ID
+router.delete("/:id", protect, deleteOrder);  // Delete order by ID
 
 export default router;

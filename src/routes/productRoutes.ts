@@ -1,18 +1,21 @@
 import { Router } from "express";
-import {
-  createProduct,
-  getProducts,
-  getProductById,
-  updateProduct,
-  deleteProduct,
-} from "../controllers/productController";
+import { body } from "express-validator";
+import { createProduct, getProducts , deleteProduct} from "../controllers/productController";
+import { validateRequest } from "../middleware/validateRequest";
 
 const router = Router();
 
-router.post("/", createProduct);       // POST /products
-router.get("/", getProducts);          // GET /products
-router.get("/:id", getProductById);    // GET /products/:id
-router.put("/:id", updateProduct);     // PUT /products/:id
-router.delete("/:id", deleteProduct);  // DELETE /products/:id
+router.post(
+  "/",
+  [
+    body("name").notEmpty().withMessage("Name is required"),
+    body("description").notEmpty().withMessage("Description is required"),
+    body("price").isFloat({ min: 0 }).withMessage("Price must be a positive number"),
+  ],
+  validateRequest,
+  createProduct
+);
+
+router.get("/", getProducts);
 
 export default router;
